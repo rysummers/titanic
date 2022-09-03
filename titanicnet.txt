@@ -1,0 +1,76 @@
+
+> titanic <- 
++   readXL("/Users/ryan_summers/Documents/Syracuse - M.S. Business Analytics/SCM 651 Business Analytics/Week 8/week8-titanic-data.xlsx",
++    rownames=FALSE, header=TRUE, na="", sheet="Titanic", stringsAsFactors=TRUE)
+
+> scatterplot(survived~age, regLine=FALSE, smooth=FALSE, boxplots=FALSE, data=titanic)
+
+> GLM.1 <- glm(survived ~ gendernum + age + pclass, family=binomial(logit), data=titanic)
+
+> summary(GLM.1)
+
+Call:
+glm(formula = survived ~ gendernum + age + pclass, family = binomial(logit), 
+    data = titanic)
+
+Deviance Residuals: 
+    Min       1Q   Median       3Q      Max  
+-2.6159  -0.7162  -0.4321   0.6572   2.4041  
+
+Coefficients:
+            Estimate Std. Error z value     Pr(>|z|)    
+(Intercept)  4.58927    0.40572  11.311      < 2e-16 ***
+gendernum   -2.49738    0.16612 -15.034      < 2e-16 ***
+age         -0.03388    0.00628  -5.395 0.0000000684 ***
+pclass      -1.13324    0.11173 -10.143      < 2e-16 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+(Dispersion parameter for binomial family taken to be 1)
+
+    Null deviance: 1414.62  on 1045  degrees of freedom
+Residual deviance:  983.02  on 1042  degrees of freedom
+AIC: 991.02
+
+Number of Fisher Scoring iterations: 4
+
+
+> exp(coef(GLM.1))  # Exponentiated coefficients ("odds ratios")
+(Intercept)   gendernum         age      pclass 
+98.42238017  0.08230068  0.96668270  0.32198709 
+
+> GLM.2 <- glm(survived ~ gendernum + age + pclass + gendernum*age, family=binomial(logit), data=titanic)
+
+> summary(GLM.2)
+
+Call:
+glm(formula = survived ~ gendernum + age + pclass + gendernum * 
+    age, family = binomial(logit), data = titanic)
+
+Deviance Residuals: 
+    Min       1Q   Median       3Q      Max  
+-2.3418  -0.6894  -0.4013   0.6574   2.5444  
+
+Coefficients:
+               Estimate Std. Error z value  Pr(>|z|)    
+(Intercept)    3.846498   0.435267   8.837   < 2e-16 ***
+gendernum     -1.069120   0.358306  -2.984   0.00285 ** 
+age           -0.004106   0.009463  -0.434   0.66440    
+pclass        -1.162871   0.114479 -10.158   < 2e-16 ***
+gendernum:age -0.051131   0.011895  -4.298 0.0000172 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+(Dispersion parameter for binomial family taken to be 1)
+
+    Null deviance: 1414.62  on 1045  degrees of freedom
+Residual deviance:  963.47  on 1041  degrees of freedom
+AIC: 973.47
+
+Number of Fisher Scoring iterations: 5
+
+
+> exp(coef(GLM.2))  # Exponentiated coefficients ("odds ratios")
+  (Intercept)     gendernum           age        pclass gendernum:age 
+   46.8287816     0.3433104     0.9959028     0.3125874     0.9501546 
+
