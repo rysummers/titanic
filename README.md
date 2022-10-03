@@ -1,2 +1,2 @@
 # titanic
-Simple survival probability analysis using titanic data. Logit, Probit, & neural network.
+Predicting survival probability using Titanic data. Neural Network, Logit Regression, Random Forest, and Decision Trees.
